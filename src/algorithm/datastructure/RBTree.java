@@ -164,6 +164,7 @@ public class RBTree {
 				}
 			}
 		}
+		this.root.color = Color.BLACK;
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
