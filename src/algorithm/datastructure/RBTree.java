@@ -1,29 +1,20 @@
 package algorithm.datastructure;
 
-public class RBTree extends BSTree{
+public class RBTree {
 	public enum Color {RED,BLOCK};
-	public final RBNode nil = this.new RBNode();
-	{
-		nil.color = Color.BLOCK;
-	}
+	public final RBNode nil;
 	
-	class RBNode extends BSTree.Node
+	class RBNode 
 	{
 		Color color;
-		/**
-		 * 构造nil节点
-		 */
+		RBNode left;
+		RBNode right;
+		RBNode parent;
 		public RBNode()
 		{
-			super();
-			this.color = null;
+			this(0);
 		}
-		/**
-		 * 构造内部节点
-		 * @param data
-		 */
 		public RBNode(int data) {
-			super(data);
 			this.color = Color.RED;
 			this.left = nil;
 			this.right = nil;
@@ -31,9 +22,18 @@ public class RBTree extends BSTree{
 		}
 	}
 	
+	private RBNode root;
+	
+	public RBTree()
+	{
+		this.nil = new RBNode();
+		nil.color = Color.BLOCK;
+		this.root = this.nil;
+	}
+	
 	public void leftRotate(RBNode x)
 	{
-		Node y = x.right;
+		RBNode y = x.right;
 		x.right = y.left;
 		if(y.left!=nil)
 		{
@@ -57,7 +57,7 @@ public class RBTree extends BSTree{
 	}
 	public void rightRotate(RBNode x)
 	{
-		Node y = x.left;
+		RBNode y = x.left;
 		x.left = y.right;
 		if(y.right!=nil)
 		{
@@ -81,7 +81,9 @@ public class RBTree extends BSTree{
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+		//System.out.println("hello world");
+		RBTree rbt = new RBTree();
+		System.out.println(rbt.nil.color);
 	}
 
 }
