@@ -91,7 +91,7 @@ public class DPTest {
 			int q = Integer.MIN_VALUE;
 			for(int i=1;i<=j;i++)
 			{
-//				q = Math.max(q,p[i]+r[j-i]);
+				//q = Math.max(q,p[i]+r[j-i]);
 				if(q<p[i]+r[j-i])
 				{
 					q = p[i]+r[j-i];
