@@ -67,11 +67,11 @@ public class BSTree {
 		{
 			if(x.data<k)
 			{
-				x = x.left;
+				x = x.right;
 			}
 			else
 			{
-				x = x.right;
+				x = x.left;
 			}
 		}
 		return x;

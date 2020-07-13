@@ -309,7 +309,26 @@ public class RBTree {
 			x = x.left;
 		}
 		return x;
-	} 
+	}
+	public RBNode search(RBNode x, int k)
+	{
+		while(x!=this.nil && x.data!=k)
+		{
+			if(k<x.data)
+			{
+				x = x.left;
+			}
+			else
+			{
+				x = x.right;
+			}
+		}
+		return x;
+	}
+	public RBNode search(int k)
+	{
+		return this.search(this.root,k);
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//System.out.println("hello world");
