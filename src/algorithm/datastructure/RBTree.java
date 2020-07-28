@@ -32,7 +32,10 @@ public class RBTree {
 		this.nil.color = Color.BLACK;
 		this.root = this.nil;
 	}
-	
+	public RBNode getRoot()
+	{
+		return this.root;
+	}
 	public void leftRotate(RBNode x)
 	{
 		RBNode y = x.right;
@@ -81,8 +84,14 @@ public class RBTree {
 		y.right = x;
 		x.parent = y;
 	}
+	public void insert(int key)
+	{
+		RBNode z = this.new RBNode(key);
+		this.insert(z);
+	}
 	public void insert(RBNode z)
 	{
+		//keep y is the parent of x
 		RBNode y = this.nil;
 		RBNode x = this.root;
 		while(x!=this.nil)
@@ -125,7 +134,7 @@ public class RBTree {
 				if(y.color==Color.RED)
 				{
 					z.parent.color = Color.BLACK;
-					z.parent.color = Color.BLACK;
+					y.color = Color.BLACK;
 					z.parent.parent.color = Color.RED;
 					z = z.parent.parent;
 				}
@@ -147,7 +156,7 @@ public class RBTree {
 				if(y.color==Color.RED)
 				{
 					z.parent.color = Color.BLACK;
-					z.parent.color = Color.BLACK;
+					y.color = Color.BLACK;
 					z.parent.parent.color = Color.RED;
 					z = z.parent.parent;
 				}
@@ -329,11 +338,43 @@ public class RBTree {
 	{
 		return this.search(this.root,k);
 	}
+	public void inorder()
+	{
+		this.inorder(this.root);
+	}
+	public void preorder()
+	{
+		this.preorder(this.root);
+	}
+	private void inorder(RBNode r)
+	{
+		if(r==this.nil)
+			return;
+		this.inorder(r.left);
+		System.out.print(r.data+"("+r.color+") ");
+		this.inorder(r.right);
+	}
+	private void preorder(RBNode r)
+	{
+		if(r==this.nil)
+			return;
+		System.out.print(r.data+"("+r.color+") ");
+		this.preorder(r.left);
+		this.preorder(r.right);
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//System.out.println("hello world");
+		int[] data = {11,2,1,7,5,4,8,14,15,2};
 		RBTree rbt = new RBTree();
-		System.out.println(rbt.nil.color);
+		int n = 6;
+		for(int i=0;i<n;i++)
+		{
+			rbt.insert((int)(Math.random()*n*10));
+		}
+		rbt.preorder();
+		System.out.println();
+		rbt.inorder();
+
 	}
 
 }
