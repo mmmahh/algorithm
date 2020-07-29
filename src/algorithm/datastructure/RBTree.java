@@ -131,26 +131,26 @@ public class RBTree {
 			if(z.parent==z.parent.parent.left)
 			{
 				RBNode y = z.parent.parent.right;
-				if(y.color==Color.RED)
-				{
-					z.parent.color = Color.BLACK;
-					y.color = Color.BLACK;
-					z.parent.parent.color = Color.RED;
-					z = z.parent.parent;
+				if(y.color==Color.RED)                      
+				{                                           
+					z.parent.color = Color.BLACK;           //case 1
+					y.color = Color.BLACK;                  //case 1
+					z.parent.parent.color = Color.RED;      //case 1
+					z = z.parent.parent;                    //case 1
 				}
 				else
 				{
 					if(z==z.parent.right)
 					{
-						z = z.parent;
-						this.leftRotate(z);
+						z = z.parent;                       //case 2
+						this.leftRotate(z);                 //case 2
 					}
-					z.parent.color = Color.BLACK;
-					z.parent.parent.color = Color.RED;
-					this.rightRotate(z.parent.parent);
+					z.parent.color = Color.BLACK;           //case 3
+					z.parent.parent.color = Color.RED;      //case 3
+					this.rightRotate(z.parent.parent);      //case 3
 				}
 			}
-			else
+			else //(same as then clause with "right" and "left" exchanged)
 			{
 				RBNode y = z.parent.parent.left;
 				if(y.color==Color.RED)
@@ -242,33 +242,33 @@ public class RBTree {
 				RBNode w = x.parent.right;
 				if(w.color==Color.RED)
 				{
-					w.color = Color.BLACK;
-					x.parent.color = Color.RED;
-					this.leftRotate(x.parent);
-					w = x.parent.right;
+					w.color = Color.BLACK;                        //case 1
+					x.parent.color = Color.RED;                   //case 1
+					this.leftRotate(x.parent);                    //case 1
+					w = x.parent.right;                           //case 1
 				}
 				if(w.left.color==Color.BLACK && w.right.color==Color.BLACK)
 				{
-					w.color = Color.RED;
-					x = x.parent;
+					w.color = Color.RED;                          //case 2
+					x = x.parent;                                 //case 2
 				}
 				else
 				{
 					if(w.right.color==Color.BLACK)
 					{
-						w.left.color = Color.BLACK;
-						w.color = Color.RED;
-						this.rightRotate(w);
-						w = x.parent.right;
+						w.left.color = Color.BLACK;               //case 3
+						w.color = Color.RED;                      //case 3
+						this.rightRotate(w);                      //case 3
+						w = x.parent.right;                       //case 3
 					}
-					w.color = x.parent.color;
-					x.parent.color = Color.BLACK;
-					w.right.color = Color.BLACK;
-					this.leftRotate(x.parent);
-					x = this.root;
+					w.color = x.parent.color;                     //case 4
+					x.parent.color = Color.BLACK;                 //case 4
+					w.right.color = Color.BLACK;                  //case 4
+					this.leftRotate(x.parent);                    //case 4
+					x = this.root;                                //case 4
 				}
 			}
-			else
+			else //(same as then clause with "right" and "left" exchanged)
 			{
 				RBNode w = x.parent.left;
 				if(w.color==Color.RED)
@@ -364,17 +364,31 @@ public class RBTree {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] data = {11,2,1,7,5,4,8,14,15,2};
+//		int[] data = {11,2,1,7,5,4,8,14,15,2};
 		RBTree rbt = new RBTree();
 		int n = 6;
 		for(int i=0;i<n;i++)
 		{
-			rbt.insert((int)(Math.random()*n*10));
+			int key = (int)(Math.random()*n*10);
+			rbt.insert(key);
+			System.out.print(key+" ");
 		}
+		System.out.println();
 		rbt.preorder();
 		System.out.println();
-		rbt.inorder();
-
+		
+		int key = (int)(Math.random()*n*10);
+		RBNode t = rbt.search(key);
+		if(t!=rbt.nil)
+		{
+			System.out.println("delete key:"+key);
+			rbt.delete(t);
+			rbt.preorder();
+		}
+		else
+		{
+			System.out.println("not find key:"+key);
+		}
 	}
 
 }
