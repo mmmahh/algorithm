@@ -1,5 +1,6 @@
 package algorithm.dynamicProgramming;
 
+
 public class DPTest {
 
 	/***************************************
@@ -178,29 +179,111 @@ public class DPTest {
 			System.out.print(")");
 		}
 	}
-
 	/****************************************/
+	
+	/*******最长公共子序列*********/
+	/**
+	 * c(i,j) = 0                        i=0 or j=0
+	 * 			c(i-1,j-1)               i,j>0 and x_i=y_j
+	 * 			max{c(i,j-1), c(i-1,j)}  i,j>0 and x_i!=y_j
+	 * 
+	 */
+	private static final int UP = 1;
+	private static final int LEFT = 2;
+	private static final int UP_LEFT = 3;
+	public static class Answer3
+	{
+		int[][] b;
+		int lcs;
+		public Answer3(int[][] b, int lcs)
+		{
+			this.b = b;
+			this.lcs = lcs;
+		}
+	}
+	public static Answer3 LCS(String x, String y)
+	{
+		int m = x.length();
+		int n = y.length();
+		int[][] b = new int[m+1][n+1];
+		int[][] c = new int[m+1][n+1];
+		for(int i=1;i<=m;i++)
+		{
+			c[i][0] = 0;
+		}
+		for(int j=0;j<=n;j++)
+		{
+			c[0][j] = 0;
+		}
+		for(int i=1;i<=m;i++)
+		{
+			for(int j=1;j<=n;j++)
+			{
+				if(x.charAt(i-1)==y.charAt(j-1))
+				{
+					c[i][j] = c[i-1][j-1]+1;
+					b[i][j] = UP_LEFT;
+				}
+				else if(c[i-1][j]>=c[i][j-1])
+				{
+					c[i][j] = c[i-1][j];
+					b[i][j] = UP;
+				}
+				else
+				{
+					c[i][j] = c[i][j-1];
+					b[i][j] = LEFT;
+				}
+			}
+		}
+		return new Answer3(b,c[m][n]);
+	}
+	public static void printLCS(int[][] b, String x, int i, int j)
+	{
+		if(i==0 || j==0)
+			return;
+		if(b[i][j]==UP_LEFT)
+		{
+			printLCS(b,x,i-1,j-1);
+			System.out.print(x.charAt(i-1));
+		}
+		else if(b[i][j]==UP)
+		{
+			printLCS(b,x,i-1,j);
+		}
+		else
+		{
+			printLCS(b,x,i,j-1);
+		}
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] p = {0,1,5,8,9,10,17,17,20,24,30};
-		algorithm.Test.runtime(()->{
-			cutRod(p,p.length-1);
-		});
-		System.out.println(cutRod(p,p.length-1));
-		algorithm.Test.runtime(()->{
-			memoizedCutRod(p,p.length-1);
-		});
-		System.out.println(memoizedCutRod(p,p.length-1));
-		algorithm.Test.runtime(()->{
-			bottomUpCutRod(p,p.length-1);
-		});
-		System.out.println(bottomUpCutRod(p,p.length-1));
+//		int[] p = {0,1,5,8,9,10,17,17,20,24,30};
+//		algorithm.Test.runtime(()->{
+//			cutRod(p,p.length-1);
+//		});
+//		System.out.println(cutRod(p,p.length-1));
+//		algorithm.Test.runtime(()->{
+//			memoizedCutRod(p,p.length-1);
+//		});
+//		System.out.println(memoizedCutRod(p,p.length-1));
+//		algorithm.Test.runtime(()->{
+//			bottomUpCutRod(p,p.length-1);
+//		});
+//		System.out.println(bottomUpCutRod(p,p.length-1));
+//		
+//		printCutRodSolution(p,p.length-1);
+//		
+//		int[] p1 = {5,10,3,12,5,50,6};
+//		int[] p2 = {30,35,15,5,10,20,25};
+//		printMatrixChainOrderSolution(p2);
 		
-		printCutRodSolution(p,p.length-1);
 		
-		int[] p1 = {5,10,3,12,5,50,6};
-		int[] p2 = {30,35,15,5,10,20,25};
-		printMatrixChainOrderSolution(p2);
+		String x = "ABCBDAB";
+		String y = "BDCABA";
+		Answer3 ans3 = LCS(x,y);
+		System.out.println("LCS:"+ans3.lcs);
+		printLCS(ans3.b,x,x.length(),y.length());
 	}
 
 }
